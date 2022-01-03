@@ -1,16 +1,22 @@
 import requests
 import json
 
+# id of a stop place
+stop_place_id_query = 5358
+
+# amount of incoming buses to check for
+amount_of_incoming_bus = 1
+
 # what we will request to the api server
-query = """{
+query = '''{
   stopPlace(
-    id: "NSR:StopPlace:5952" 
+    id: "''' + f'NSR:StopPlace:{stop_place_id_query}' + '''"
   ) {
     id
     name
     estimatedCalls(
       timeRange: 72100,
-      numberOfDepartures: 3
+      numberOfDepartures: ''' + f"{amount_of_incoming_bus}" + '''
     ) {
       realtime
       aimedArrivalTime
@@ -39,7 +45,9 @@ query = """{
       }
     }
   }
-}"""
+}
+'''
+#query.format(stop_place_id_query, amount_of_incoming_bus)
 
 # do a POST request to api server with the assigned query
 r = requests.post('https://api.entur.io/journey-planner/v3/graphql', data=query)
@@ -52,3 +60,9 @@ nearest_stop_time = r['data']['stopPlace']['estimatedCalls'][0]['aimedArrivalTim
 
 # print the closest bus stop time
 print(nearest_stop_time)
+
+# index our way to the station name
+name_of_station = r['data']['stopPlace']['name']
+
+# print the name of the station
+print(name_of_station)
