@@ -2,10 +2,10 @@ import requests
 import json
 
 # id of a stop place
-stop_place_id_query = 5358
+stop_place_id_query = 5941
 
 # amount of incoming buses to check for
-amount_of_incoming_bus = 1
+amount_of_incomings = 1
 
 # what we will request to the api server
 query = '''{
@@ -16,7 +16,7 @@ query = '''{
     name
     estimatedCalls(
       timeRange: 72100,
-      numberOfDepartures: ''' + f"{amount_of_incoming_bus}" + '''
+      numberOfDepartures: ''' + f"{amount_of_incomings}" + '''
     ) {
       realtime
       aimedArrivalTime
@@ -66,3 +66,9 @@ name_of_station = r['data']['stopPlace']['name']
 
 # print the name of the station
 print(name_of_station)
+
+id_of_station = r['data']['stopPlace']['id']
+line = r['data']['stopPlace']['estimatedCalls'][0]['serviceJourney']['journeyPattern']
+
+name_of_line = line['line']['name']
+print(name_of_line)
