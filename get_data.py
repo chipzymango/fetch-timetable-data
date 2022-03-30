@@ -50,25 +50,25 @@ query = '''{
 #query.format(stop_place_id_query, amount_of_incoming_bus)
 
 # do a POST request to api server with the assigned query
-r = requests.post('https://api.entur.io/journey-planner/v3/graphql', data=query)
+response = requests.post('https://api.entur.io/journey-planner/v3/graphql', data=query)
 
 # convert string to dict so we can work with it
-r = json.loads(r.text)
+response = json.loads(response.text)
 
 # index our way to desired data
-nearest_stop_time = r['data']['stopPlace']['estimatedCalls'][0]['aimedArrivalTime']
-delayed_stop_time = r['data']['stopPlace']['estimatedCalls'][0]['expectedArrivalTime']
+nearest_stop_time = response['data']['stopPlace']['estimatedCalls'][0]['aimedArrivalTime']
+
 # print the closest bus stop time
 print(nearest_stop_time)#
 
 # index our way to the station name
-name_of_station = r['data']['stopPlace']['name']
+name_of_station = response['data']['stopPlace']['name']
 
 # print the name of the station
 print(name_of_station)
 
-id_of_station = r['data']['stopPlace']['id']
-line = r['data']['stopPlace']['estimatedCalls'][0]['serviceJourney']['journeyPattern']
+id_of_station = response['data']['stopPlace']['id']
+line = response['data']['stopPlace']['estimatedCalls'][0]['serviceJourney']['journeyPattern']
 
 name_of_line = line['line']['name']
 print(name_of_line)
