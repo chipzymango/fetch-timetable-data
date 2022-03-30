@@ -57,9 +57,9 @@ r = json.loads(r.text)
 
 # index our way to desired data
 nearest_stop_time = r['data']['stopPlace']['estimatedCalls'][0]['aimedArrivalTime']
-
+delayed_stop_time = r['data']['stopPlace']['estimatedCalls'][0]['expectedArrivalTime']
 # print the closest bus stop time
-print(nearest_stop_time)
+print(nearest_stop_time)#
 
 # index our way to the station name
 name_of_station = r['data']['stopPlace']['name']
